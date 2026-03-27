@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC2009
+
+# SIGTERM üçün trap
+trap 'echo "I am invincible!!!"' SIGTERM
+
+# Sonsuz loop
+while true; do
+    echo "To infinity and beyond"
+    sleep 2
+done
