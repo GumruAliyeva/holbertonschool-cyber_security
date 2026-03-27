@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC2009
+
+# /proc-dakı bütün PID-ləri yoxlayırıq
 for pid in /proc/[0-9]*; do
     cmd=$(cat "$pid/cmdline" 2>/dev/null)
     if [[ $cmd == *4-to_infinity_and_beyond* ]]; then
+        # fuser ilə PID-i dayandırırıq (kill istifadə etmədən)
         fuser -k "$pid" 2>/dev/null
     fi
 done
