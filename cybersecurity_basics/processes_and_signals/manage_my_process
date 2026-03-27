@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC2009
+
+# Sonsuz loop, hər 2 saniyədən bir yazır
+while true; do
+    echo "I am alive!" >> /tmp/my_process
+    sleep 2
+done

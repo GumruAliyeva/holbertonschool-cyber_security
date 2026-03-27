@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC2009
+
+PID_FILE="/var/run/my_process.pid"
+SCRIPT_PATH="/full/path/to/manage_my_process"  # manage_my_process faylının tam yolu
+
+case "$1" in
+    start)
+        "$SCRIPT_PATH" &
+        echo $! > "$PID_FILE"
+        echo "manage_my_process started"
+        ;;
+    stop)
+        if [ -f "$PID_FILE" ]; then
+            kill "$(cat "$PID_FILE")" 2>/dev/null
+            rm -f "$PID_FILE"
+            echo "manage_my_process stopped"
+        else
+            echo "manage_my_process is not running"
+        fi
+        ;;
+    restart)
+        if [ -f "$PID_FILE" ]; then
+            kill "$(cat "$PID_FILE")" 2>/dev/null
+            rm -f "$PID_FILE"
+        fi
+        "$SCRIPT_PATH" &
+        echo $! > "$PID_FILE"
+        echo "manage_my_process restarted"
+        ;;
+    *)
+        echo "Usage: manage_my_process {start|stop|restart}"
+        ;;
+esac
