@@ -1,12 +1,21 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2009
 
-# PID faylı
-echo $$ > /tmp/myscript.pid
+PID_FILE="/tmp/myscript.pid"
 
-trap 'echo "I hate the kill command"' SIGTERM
+# Skriptin PID-sini fayla yazırıq
+echo $$ > "$PID_FILE"
+
+# SIGINT (Ctrl+C) üçün trap
 trap 'echo "Y U no love me?!"' SIGINT
-trap 'rm -f /tmp/myscript.pid; exit' SIGQUIT SIGTERM
 
+# SIGTERM üçün trap
+trap 'echo "I hate the kill command"' SIGTERM
+
+# SIGQUIT və SIGTERM üçün faylı silib çıxmaq
+trap 'rm -f "$PID_FILE"; exit' SIGQUIT SIGTERM
+
+# Sonsuz loop
 while true; do
     echo "To infinity and beyond"
     sleep 2
